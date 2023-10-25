@@ -1,0 +1,33 @@
+@keyframes spark {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .hover\:animate-spark:hover .animate-pulse {
+    animation: spark 1s ease-in-out;
+  }
+
+  
+
+  .logo {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff; /* White background */
+    /* border: 2px solid #007bff; */
+    border-radius: 10px;
+}
+  
+.large-font {
+    font-size: 15px; /* Adjust the font size as needed */
+  }
+  
