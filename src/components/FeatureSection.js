@@ -7,8 +7,8 @@ const FeatureSection = () => {
       <div data-aos="fade-right" className=" bottom-20 w-20 h-10 sm:w-1/2 relative">
 
         <div className="bg-yellow-500 w-14 h-14 rounded-full absolute z-0 -left-1 -top-3 animate-pulse"></div>
-        <h1 className="font-semibold text-2xl relative z-50 text-darken lg:pr-10">Everything you can do in a physical classroom, <span className="text-yellow-500">you can do with Skilline</span></h1>
-        <p className="py-5 lg:pr-32">Skilline’s school management software helps traditional and online schools manage scheduling, attendance, payments and virtual classrooms all in one secure cloud-based system.</p>
+        <h1 className="font-semibold text-2xl relative z-50 text-darken lg:pr-10">Everything you can do in a physical classroom, <span className="text-yellow-500">you can do with Xpert</span></h1>
+        <p className="py-5 lg:pr-32">Xpert’s school management software helps traditional and online schools manage scheduling, attendance, payments and virtual classrooms all in one secure cloud-based system.</p>
         <a href="#" className="underline">Learn More</a>
       </div>
       <div data-aos="fade-left" className="sm:w-1/2 relative mt-10 sm:mt-0">

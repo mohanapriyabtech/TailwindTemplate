@@ -1,0 +1,8 @@
+.custom-transition {
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+  }
+  
+  .custom-transition.opacity-100 {
+    opacity: 1;
+  }

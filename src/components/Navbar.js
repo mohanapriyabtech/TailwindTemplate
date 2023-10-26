@@ -10,7 +10,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 w-full py-5" style={{ }}>
+    <nav id="Home" className="fixed top-0 left-0 right-0 w-full py-5 bg-sky-200">
       <div className="w-full flex justify-between items-center custom-background">
 
         <div className="mx-auto w-full flex justify-between items-center px-10">
@@ -25,47 +25,47 @@ function Navbar() {
           </div>
           </a>
           <ul className="text-sm tracking-wide items-center flex justify-center space-x-6">
-            <li className="hover:scale-125 duration-300 py-1 hover:text-white large-font">
+            <li className="hover:scale-125 duration-300 py-1 hover:text-black large-font">
               <a href="#home" className="cursor-pointer">Home</a>
             </li>
-            <li className="hover:scale-125 duration-300 py-1 hover:text-white large-font">
+            <li className="hover:scale-125 duration-300 py-1 hover:text-black large-font">
               <a href="#product" className="cursor-pointer">Product</a>
             </li>
-            <li className="relative group large-font">
-              <a
+            <li className="relative group  hover:text-black large-font">
+              <a href="#aboutus"
                 onClick={toggleDropdown}
                 className="cursor-pointer"
               >
                 About us
-                <span
+                {/* <span
                   className={`${
                     showDropdown ? 'block' : 'hidden'
                   } absolute z-10 mt-2 py-2 w-32 bg-white border border-gray-300 rounded-lg shadow-lg group-hover:block`}
                 >
                   <a
                     href="#team"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-black"
                   >
                     Our Team
                   </a>
                   <a
                     href="#mission"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-black"
                   >
                     Our Mission
                   </a>
-                </span>
+                </span> */}
               </a>
             </li>
-            <li className="hover:scale-125 duration-300 py-1 hover:text-white">
+            <li className="hover:scale-125 duration-300 py-1 hover:text-black">
               <a href="#contact" className="cursor-pointer large-font">Contact</a>
             </li>
             <button className="relative bg-teal-600 px-7 rounded-full tracking-wide py-3 text-xs hover:scale-110 duration-300 hover:animate-spark">
-              Login
+              LogOut
             </button>
-            <button className="relative bg-teal-600 px-7 rounded-full tracking-wide py-3 text-xs hover:scale-110 duration-300 hover:animate-spark">
+            {/* <button className="relative bg-teal-600 px-7 rounded-full tracking-wide py-3 text-xs hover:scale-110 duration-300 hover:animate-spark">
               Sign Up
-            </button>
+            </button> */}
           </ul>
         </div>
       </div>
