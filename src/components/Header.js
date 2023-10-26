@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Ellipse from '../webim/Ellipse.png'; 
 import Wave3 from '../webim/wave3.png';
@@ -13,6 +13,7 @@ import "../components/css/Header.css"
 
 function Header() {
   const navigate = useNavigate();
+  
   const handleOnClick = () => {
     navigate('/signup')
   }
