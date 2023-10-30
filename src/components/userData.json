@@ -10,27 +10,101 @@
     "recommendedVideos": [
       {
         "id": 1,
-        "title": "Video 1",
-        "thumbnail": "https://www.youtube.com/watch?v=SdyzXQoQO18",
-        "description": "This is the description for Video 1.",
-        "authorName": "Author A"
+        "title": "Course 1",
+        "image": "https://images.unsplash.com/photo-1.jpg",
+        "highlight": "Highlight",
+        "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec ullamcorper nulla non metus auctor fringilla.",
+        "price": 45.00,
+        "duration": "3 Tage",
+        "discount": "Ermäßigung mit Karte",
+        "rating": 4.5
       },
       {
-        "id": 2,
-        "title": "Video 2",
-        "thumbnail": "https://www.youtube.com/watch?v=SdyzXQoQO18",
-        "description": "This is the description for Video 2.",
-        "authorName": "Author B"
+        "id": 1,
+        "title": "Course 1",
+        "image": "https://images.unsplash.com/photo-1.jpg",
+        "highlight": "Highlight",
+        "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec ullamcorper nulla non metus auctor fringilla.",
+        "price": 45.00,
+        "duration": "3 Tage",
+        "discount": "Ermäßigung mit Karte",
+        "rating": 4.5
       },
       {
-        "id": 3,
-        "title": "Video 3",
-        "thumbnail": "https://www.youtube.com/watch?v=SdyzXQoQO18",
-        "description": "This is the description for Video 3.",
-        "authorName": "Author C"
+        "id": 1,
+        "title": "Course 1",
+        "image": "https://images.unsplash.com/photo-1.jpg",
+        "highlight": "Highlight",
+        "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec ullamcorper nulla non metus auctor fringilla.",
+        "price": 45.00,
+        "duration": "3 Tage",
+        "discount": "Ermäßigung mit Karte",
+        "rating": 4.5
+      },
+      {
+        "id": 1,
+        "title": "Course 1",
+        "image": "https://images.unsplash.com/photo-1.jpg",
+        "highlight": "Highlight",
+        "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec ullamcorper nulla non metus auctor fringilla.",
+        "price": 45.00,
+        "duration": "3 Tage",
+        "discount": "Ermäßigung mit Karte",
+        "rating": 4.5
+      },
+      {
+        "id": 1,
+        "title": "Course 1",
+        "image": "https://images.unsplash.com/photo-1.jpg",
+        "highlight": "Highlight",
+        "description": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec ullamcorper nulla non metus auctor fringilla.",
+        "price": 45.00,
+        "duration": "3 Tage",
+        "discount": "Ermäßigung mit Karte",
+        "rating": 4.5
       }
     ],
     "authors": [
+      {
+        "id": 1,
+        "name": "Author A",
+        "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy1f_dyTc0-M4jW950BEoDdrR7NqT7R8MFVQ&usqp=CAU",
+        "description": "Author A's bio."
+      },
+      {
+        "id": 2,
+        "name": "Author B",
+        "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy1f_dyTc0-M4jW950BEoDdrR7NqT7R8MFVQ&usqp=CAU",
+        "description": "Author B's bio."
+      },
+      {
+        "id": 3,
+        "name": "Author C",
+        "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy1f_dyTc0-M4jW950BEoDdrR7NqT7R8MFVQ&usqp=CAU",
+        "description": "Author C's bio."
+      }
+    ],
+    "messages": [
+      {
+        "id": 1,
+        "name": "Author A",
+        "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy1f_dyTc0-M4jW950BEoDdrR7NqT7R8MFVQ&usqp=CAU",
+        "description": "Author A's bio."
+      },
+      {
+        "id": 2,
+        "name": "Author B",
+        "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy1f_dyTc0-M4jW950BEoDdrR7NqT7R8MFVQ&usqp=CAU",
+        "description": "Author B's bio."
+      },
+      {
+        "id": 3,
+        "name": "Author C",
+        "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy1f_dyTc0-M4jW950BEoDdrR7NqT7R8MFVQ&usqp=CAU",
+        "description": "Author C's bio."
+      }
+    ],
+    "notifications": [
       {
         "id": 1,
         "name": "Author A",
