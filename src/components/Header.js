@@ -15,7 +15,7 @@ function Header() {
   const navigate = useNavigate();
   
   const handleOnClick = () => {
-    navigate('/signup')
+    navigate('/login')
   }
 
 
