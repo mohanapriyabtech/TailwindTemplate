@@ -13,6 +13,10 @@ import {
   MenuItem,
   Avatar,
 } from "@material-tailwind/react";
+import mentor from "../webim/mentor1.webp"
+import courseImage from "../webim/program.jpg"
+
+
 
 
 
@@ -20,10 +24,12 @@ function UserProfile() {
   const { user, recommendedVideos, authors } = userData;
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [courseList, setCourseList] = useState([]); 
-
+  const [authorList, setAuthorList] = useState([]); 
   const apiUrl = "http://localhost:4000/api/v1/user/list-course"
 
   useEffect(() => {
+    fetchAuthorList()
+
     const fetchCourseList = async () => {
       try {
         
@@ -37,8 +43,27 @@ function UserProfile() {
     };
 
     fetchCourseList();
+    
   }, [apiUrl]);
+  
 
+  const fetchAuthorList = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/v1/mentor/list-mentor");
+      const authorData = response.data.data;
+      console.log(authorData, "authorData");
+      setAuthorList(authorData);
+    } catch (error) {
+      console.error('Error fetching author data:', error);
+    }
+  };
+  
+
+  //log out function
+  const handleLogoutClick = () => {
+
+   localS
+  }
 
   const handleVideoClick = (video) => {
     setSelectedVideo(video);
@@ -53,10 +78,11 @@ function UserProfile() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
-  const displayedCourses = recommendedVideos.slice(startIndex, endIndex);
+  console.log(courseList,"course")
+  const displayedCourses = courseList.slice(startIndex, endIndex);
   
   const handleNextClick = () => {
-    if (endIndex < recommendedVideos.length) {
+    if (endIndex < courseList.length) {
       setCurrentPage(currentPage + 1);
     } 
   };
@@ -66,10 +92,10 @@ function UserProfile() {
 
   const startAuthorIndex = (currentPage - 1) * itemsPerPage1;
   const endAuthorIndex = currentPage * itemsPerPage1;
-  const displayedAuthorCourses = authors.slice(startAuthorIndex, endAuthorIndex);
+  const displayedAuthorCourses = authorList.slice(startAuthorIndex, endAuthorIndex);
 
   const handleAuthorNextClick = () => {
-    if (endAuthorIndex < authors.length) {
+    if (endAuthorIndex < authorList.length) {
       setCurrentAuthorPage(currentAuthorPage + 1);
     } 
   };
@@ -143,7 +169,7 @@ function UserProfile() {
             )}
             </div>
 
-          <button className="bg-white-500 hover:bg-blue-200 text-black border border-blue-500 font-bold py-2 px-4 rounded-full">
+          <button className="bg-white-500 hover:bg-blue-200 text-black border border-blue-500 font-bold py-2 px-4 rounded-full" onClick= {handleLogoutClick}>
           Log Out
           </button>
         </div>
@@ -154,35 +180,35 @@ function UserProfile() {
           <h2 className="text-2xl font-bold mb-4">Course List</h2>
           <div className="flex flex-wrap -mx-4">
             {displayedCourses.map((course) => (
-              <div key={course.id} className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-4">
+              <div key={course._id} className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-4">
                 <a href="" className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
                   <div className="relative pb-48 overflow-hidden">
                     <img
                       className="absolute inset-0 h-full w-full object-cover"
-                      src={course.image}
-                      alt=""
+                      src={courseImage}
+                      alt="courseImage"
                     />
                   </div>
                   <div className="p-4">
-                    {course.highlight && (
+                
                       <span className="inline-block px-2 py-1 leading-none bg-orange-200 text-orange-800 rounded-full font-semibold uppercase tracking-wide text-xs">
-                        {course.highlight}
+                        
                       </span>
-                    )}
-                    <h2 className="mt-2 mb-2 font-bold">{course.title}</h2>
+                  
+                    <h2 className="mt-2 mb-2 font-bold">{course.course}</h2>
                     <p className="text-sm">{course.description}</p>
                     <div className="mt-3 flex items-center">
-                      <span className="text-sm font-semibold">ab</span>
-                      <span className="font-bold text-xl">{course.price}</span>
-                      <span className="text-sm font-semibold">€</span>
+                      <span className="text-sm font-semibold"></span>
+                      <span className="font-bold text-xl">300</span>
+                      <span className="text-sm font-semibold">$</span>
                     </div>
                   </div>
                   <div className="p-4 border-t border-b text-xs text-gray-700">
                     <span className="flex items-center mb-1">
-                      <i className="far fa-clock fa-fw mr-2 text-gray-900"></i> {course.duration}
+                      <i className="far fa-clock fa-fw mr-2 text-gray-900"></i>Duration: 2.30 hours
                     </span>
                     <span className="flex items-center">
-                      <i className="far fa-address-card fa-fw text-gray-900 mr-2"></i> {course.discount}
+                      <i className="far fa-address-card fa-fw text-gray-900 mr-2"></i>Discount : 10%
                     </span>
                   </div>
                   <div className="p-4 flex items-center text-sm text-gray-600">
@@ -198,14 +224,14 @@ function UserProfile() {
                         ></path>
                       </svg>
                     ))}
-                    <span className="ml-2">{course.rating} Bewertungen</span>
+                    <span className="ml-2">5 Bewertungen</span>
                   </div>
                 </a>
               </div>
             ))}
           </div>
           <div className="flex justify-end">
-          { displayedCourses.length > 0 && endIndex < recommendedVideos.length && (
+          { displayedCourses.length > 0 && endIndex < courseList.length && (
           
             <button onClick={handleNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               <FontAwesomeIcon icon={faArrowRight} /> 
@@ -224,14 +250,15 @@ function UserProfile() {
               <div key={author.id} className="bg-white rounded-lg shadow-md overflow-hidden transform hover:scale-105 p-4">
                 <div className="relative mx-auto">
                   <img
-                    src={process.env.PUBLIC_URL + author.avatar}
-                    alt={author.name}
+                    // src={process.env.PUBLIC_URL + author.avatar}
+                    src={mentor}
+                    alt={author.mentor_name}
                     className="w-20 h-20 mx-auto object-cover rounded-full"
                   />
                 </div>
                 <div className="p-4 text-center">
-                  <h3 className="text-xl font-semibold text-gray-800">{author.name}</h3>
-                  <p className="text-sm text-gray-600 ">{author.description}</p>
+                  <h3 className="text-xl font-semibold text-gray-800">{author.mentor_name}</h3>
+                  <p className="text-sm text-gray-600 ">Mentor</p>
                 </div>
               </div>
             ))}

@@ -61,9 +61,6 @@ function Navbar() {
             <li className="hover:scale-125 duration-300 py-1 hover:text-black">
               <a href="#contact" className="cursor-pointer large-font">Contact</a>
             </li>
-            <button className="relative bg-teal-600 px-7 rounded-full tracking-wide py-3 text-xs hover:scale-110 duration-300 hover:animate-spark">
-              LogOut
-            </button>
             {/* <button className="relative bg-teal-600 px-7 rounded-full tracking-wide py-3 text-xs hover:scale-110 duration-300 hover:animate-spark">
               Sign Up
             </button> */}
