@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MailIcon, BellIcon } from '@heroicons/react/solid';
+import { useNavigate } from "react-router-dom";
 import { FaSearch } from 'react-icons/fa';
 import userData from "../components/userData.json"
 import axios from 'axios';
@@ -20,11 +21,16 @@ import courseImage from "../webim/program.jpg"
 
 
 
+
 function UserProfile() {
+  const navigate = useNavigate();
   const { user, recommendedVideos, authors } = userData;
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [courseList, setCourseList] = useState([]); 
   const [authorList, setAuthorList] = useState([]); 
+  const [searchQuery, setSearchQuery] = useState('');
+
+
   const apiUrl = "http://localhost:4000/api/v1/user/list-course"
 
   useEffect(() => {
@@ -43,9 +49,30 @@ function UserProfile() {
     };
 
     fetchCourseList();
-    
-  }, [apiUrl]);
+    if (searchQuery) {
+    fetchDataWithSearch();
+  }
+}, [searchQuery]); 
+
+
+
+const fetchDataWithSearch = async () => {
+  try {
+    console.log("token")
+    const token = localStorage.getItem("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await axios.get(
+      `${apiUrl}/api/v1/user/search-course?course=${searchQuery}`,
+      { headers }
+    );
+    setCourseList(response.data.data);
+  } catch (error) {
+    // setError(error.message);
+  }
   
+};
 
   const fetchAuthorList = async () => {
     try {
@@ -61,8 +88,10 @@ function UserProfile() {
 
   //log out function
   const handleLogoutClick = () => {
+   localStorage.removeItem('token')
+   alert("logout success")
+   navigate("/")
 
-   localS
   }
 
   const handleVideoClick = (video) => {
@@ -75,6 +104,7 @@ function UserProfile() {
 
   const itemsPerPage = 4; 
   const [currentPage, setCurrentPage] = useState(1);
+  const [previousPage, setPreviousPage] = useState(1);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
@@ -83,22 +113,41 @@ function UserProfile() {
   
   const handleNextClick = () => {
     if (endIndex < courseList.length) {
+      setPreviousPage(currentPage);
       setCurrentPage(currentPage + 1);
     } 
   };
+
+  const handlePreviousClick = () => {
+    if (startIndex > 0) {
+      setCurrentPage(previousPage);
+    } 
+  };
+
+
   const itemsPerPage1 = 5; 
   const [currentAuthorPage, setCurrentAuthorPage] = useState(1);
   const [notifications, setNotifications] = useState(false)
+  const [previousAuthorPage, setPreviousAuthorPage] = useState(1);
 
   const startAuthorIndex = (currentPage - 1) * itemsPerPage1;
   const endAuthorIndex = currentPage * itemsPerPage1;
   const displayedAuthorCourses = authorList.slice(startAuthorIndex, endAuthorIndex);
+  const name = localStorage.getItem("user_name")
 
   const handleAuthorNextClick = () => {
     if (endAuthorIndex < authorList.length) {
+      setPreviousAuthorPage(currentAuthorPage)
       setCurrentAuthorPage(currentAuthorPage + 1);
     } 
   };
+  const handleAuthorPreviousClick = () => {
+    if (startAuthorIndex > 0) {
+      setCurrentAuthorPage(previousPage);
+    } 
+  };
+
+
 
   const toggleNotifications = () => {
     setNotifications(!notifications)
@@ -116,7 +165,7 @@ function UserProfile() {
             className="w-16 h-16 rounded-full"
           />
           <div className="ml-4">
-            <h1 className="text-xl font-bold text-blue-900">Welcome, {user.name}!</h1>
+            <h1 className="text-xl font-bold text-blue-900">Welcome, {name}!</h1>
           </div>
         </div>
    
@@ -127,6 +176,8 @@ function UserProfile() {
               type="text"
               placeholder="Search"
               className="bg-gray-200 text-gray-800 rounded-full pl-6 pr-12 py-2 focus:outline-none focus:ring focus:ring-blue-400"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <span className="absolute right-4 top-2 text-gray-500"> 
               <FaSearch className="w-5 h-5" />
@@ -134,16 +185,16 @@ function UserProfile() {
           </div>
 
 
-          <div className="ml-4 relative">
+          {/* <div className="ml-4 relative">
             <span className="text-blue-500 rounded-full w-8 h-8 flex items-center justify-center bg-blue-100 mr-6">
               <MailIcon className="w-5 h-5" />
             </span>
             <span className="absolute -top-2 right-4 text-white bg-red-500 rounded-full w-4 h-4 text-xs flex items-center justify-center">
               3
             </span>
-          </div>
+          </div> */}
 
-          <div className="relative">
+          <div className="ml-4 relative">
             <span className="text-yellow-500 rounded-full w-8 h-8 flex items-center justify-center bg-yellow-100 mr-6" onClick = {toggleNotifications}>
               <BellIcon className="w-5 h-5" />
             </span>
@@ -238,6 +289,14 @@ function UserProfile() {
             </button>
           )}
           </div>
+          <div className="flex justify-start">
+            { startIndex >= 4 && (
+              
+            <button onClick={handlePreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <FontAwesomeIcon icon={faArrowLeft} /> 
+            </button>
+              )}
+          </div>
         </div>
       </div>
 
@@ -271,14 +330,14 @@ function UserProfile() {
             </button>
           )}
           </div>
-          <div className="flex justify-end"></div>
-            { startAuthorIndex >= 1 && (
+          <div className="flex justify-start"></div>
+            { startAuthorIndex > 4 && (
               
-            <button onClick={handleAuthorNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              <FontAwesomeIcon icon={faArrowRight} /> 
+            <button onClick={handleAuthorPreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              <FontAwesomeIcon icon={faArrowLeft} /> 
             </button>
               )}
-            </div>
+          </div>
       </div>
     </div>
   );

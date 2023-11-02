@@ -16,6 +16,7 @@ function Login() {
       console.log(response.data.data,"data")
       if (response.data.data && response.data.data.session.session_token) {
         localStorage.setItem('token', response.data.data.session.session_token);
+        localStorage.setItem('user_name', response.data.data.user.name);
         navigate('/user-profile');
       } else {
         setError('Login failed. Please check your credentials.');
