@@ -11,6 +11,7 @@ import MainPage from './components/MainPage';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
 import AuthorCourses from './components/AuthorCourses';
+import MentorLogin from "./components/mentor/login";
 
 
 function MainLayout() {
@@ -32,6 +33,7 @@ function App() {
         <Route path="/" element={<MainLayout />} />
         <Route path="/signup" element={<Signup />} />
         <Route path= "/login" element= {<Login />} />
+        <Route path = "/mentor-login" element= {<MentorLogin />}/>
         <Route path= "/user-profile" element= {<UserProfile />} />
         <Route path= "/auth-courses" element= {<AuthorCourses />} />
       </Routes>
