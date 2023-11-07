@@ -11,7 +11,14 @@ import MainPage from './components/MainPage';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
 import AuthorCourses from './components/AuthorCourses';
-import MentorLogin from "./components/mentor/login";
+import MentorLogin from "./components/mentor/Login";
+import MentorSignup from "./components/mentor/Signup";
+import MentorPage from './components/mentor/MentorPage';
+import MentorLessionPage from './components/mentor/MentorLessionPage';
+import EditCourse from './components/mentor/MentorEditCoursePage';
+import CourseCreatePage from './components/mentor/CourseCreatePage';
+import MentorLessonDetailsPage from './components/mentor/MentorLessonDetailsPage';
+import UserLessonDetailsPage from './components/mentor/UserLessonDetailsPage';
 
 
 function MainLayout() {
@@ -33,8 +40,19 @@ function App() {
         <Route path="/" element={<MainLayout />} />
         <Route path="/signup" element={<Signup />} />
         <Route path= "/login" element= {<Login />} />
-        <Route path = "/mentor-login" element= {<MentorLogin />}/>
         <Route path= "/user-profile" element= {<UserProfile />} />
+        <Route path= "/user-lesson-details/:courseId" element= {<UserLessonDetailsPage />} />
+
+        <Route path = "/mentor-login" element= {<MentorLogin />}/>
+        <Route path = "/mentor-signup" element= {<MentorSignup />}/>
+        <Route path= "/mentor-profile" element= {<MentorPage />} />
+        <Route path= "/mentor-course" element= {<MentorLessionPage />} /> 
+        <Route path= "/mentor-create-course" element= {<CourseCreatePage />} />
+        <Route path="/mentor-edit-course/:id" element={<EditCourse />} />
+
+        <Route path="/mentor-lesson-details/:courseId" element={<MentorLessonDetailsPage/>} />
+
+
         <Route path= "/auth-courses" element= {<AuthorCourses />} />
       </Routes>
     </Router>

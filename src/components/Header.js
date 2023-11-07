@@ -25,7 +25,7 @@ function Header() {
   return (
     <>
       <div className="ml-20 h-screen bg-cream" style={{ marginTop: '100px' }}>
-        <div className="max-w-screen-xl px-8 mx-auto flex flex-col lg:flex-row items-start">
+        <div id="home" className="max-w-screen-xl px-8 mx-auto flex flex-col lg:flex-row items-start">
           {/* Content Div */}
           <div className="flex flex-col w-full lg:w-12/12 justify-center lg:pt-24 items-start text-center lg:text-left mb-5 md:mb-0">
             <h1 data-aos="fade-right" data-aos-once="true" className="my-4 text-5xl font-bold leading-tight text-darken">
@@ -53,7 +53,7 @@ function Header() {
                 <div className="absolute bg-black bg-opacity-20 bottom-0 left-0 right-0 w-full h-full rounded-2xl">
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3 mr-20">FOR INSTRUCTORS</h1>
-                    <button className="rounded-full text-white text-xl lg:text-xl px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out animate-bounce rotate-45" onClick={handleMentorOnClick} style={{ background: 'rgba(35, 18, 255, 0.9)',width:"180px" }}>click</button>
+                    <button className="rounded-full text-white text-xl lg:text-xl px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out animate-pulse" onClick={handleMentorOnClick} style={{ background: 'rgba(35, 18, 255, 0.9)',width:"180px" }}>click</button>
                   </div>
                 </div>
               </div>
@@ -62,7 +62,7 @@ function Header() {
                 <div className="absolute bg-black bg-opacity-20 bottom-0 left-0 right-0 w-full h-full rounded-2xl">
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3 mr-20">FOR STUDENTS</h1>
-                    <button className="rounded-full text-white text-xl lg:text-xl px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out animate-bounce" onClick={handleOnClick} style={{ background: 'rgba(35, 18, 255, 0.9)',width:"180px", }}>click</button>
+                    <button className="rounded-full text-white text-xl lg:text-xl px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out animate-pulse" onClick={handleOnClick} style={{ background: 'rgba(35, 18, 255, 0.9)',width:"180px", }}>click</button>
                   </div>
                 </div>
               </div>
@@ -104,8 +104,8 @@ function Header() {
               <img className="rounded-2xl" src={staff} alt="" />
               <div className="absolute bg-black bg-opacity-20 bottom-0 left-0 right-0 w-full h-full rounded-2xl">
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3">FOR INSTRUCTORS</h1>
-                  <button className="rounded-full text-white border text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out">Start a class today</button>
+                  {/* <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3">FOR INSTRUCTORS</h1>
+                  <button className="rounded-full text-white border text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out">Start a class today</button> */}
                 </div>
               </div>
             </div>
@@ -113,8 +113,8 @@ function Header() {
               <img className="rounded-2xl bg-opacity-20" src={student} alt="" style={{ zIndex: -4 }} />
               <div className="absolute bg-black bg-opacity-20 bottom-0 left-0 right-0 w-full h-full rounded-2xl">
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3">FOR STUDENTS</h1>
-                  <button className="rounded-full text-white text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out" style={{ background: 'rgba(35, 189, 238, 0.9)' }}>Enter access code</button>
+                  {/* <h1 className="uppercase text-white font-bold text-center text-sm lg:text-xl mb-3">FOR STUDENTS</h1>
+                  <button className="rounded-full text-white text-xs lg:text-md px-6 py-3 w-full font-medium focus:outline-none transform transition hover:scale-110 duration-300 ease-in-out" style={{ background: 'rgba(35, 189, 238, 0.9)' }}>Enter access code</button> */}
                 </div>
               </div>
             </div>

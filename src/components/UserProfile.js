@@ -26,8 +26,8 @@ function UserProfile() {
   const navigate = useNavigate();
   const { user, recommendedVideos, authors } = userData;
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [courseList, setCourseList] = useState([]); 
-  const [authorList, setAuthorList] = useState([]); 
+  const [courseList, setCourseList] = useState([]);
+  const [authorList, setAuthorList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
 
@@ -38,10 +38,10 @@ function UserProfile() {
 
     const fetchCourseList = async () => {
       try {
-        
+
         const response = await axios.get("http://localhost:4000/api/v1/user/list-course");
         const courseData = response.data.data;
-        console.log(courseData,"courseData")
+        console.log(courseData, "courseData")
         setCourseList(courseData);
       } catch (error) {
         console.error('Error fetching course data:', error);
@@ -50,29 +50,29 @@ function UserProfile() {
 
     fetchCourseList();
     if (searchQuery) {
-    fetchDataWithSearch();
-  }
-}, [searchQuery]); 
+      fetchDataWithSearch();
+    }
+  }, [searchQuery]);
 
 
 
-const fetchDataWithSearch = async () => {
-  try {
-    console.log("token")
-    const token = localStorage.getItem("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-    const response = await axios.get(
-      `${apiUrl}/api/v1/user/search-course?course=${searchQuery}`,
-      { headers }
-    );
-    setCourseList(response.data.data);
-  } catch (error) {
-    // setError(error.message);
-  }
-  
-};
+  const fetchDataWithSearch = async () => {
+    try {
+      console.log("token")
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get(
+        `${apiUrl}/api/v1/user/search-course?course=${searchQuery}`,
+        { headers }
+      );
+      setCourseList(response.data.data);
+    } catch (error) {
+      // setError(error.message);
+    }
+
+  };
 
   const fetchAuthorList = async () => {
     try {
@@ -84,14 +84,12 @@ const fetchDataWithSearch = async () => {
       console.error('Error fetching author data:', error);
     }
   };
-  
+
 
   //log out function
   const handleLogoutClick = () => {
-   localStorage.removeItem('token')
-   alert("logout success")
-   navigate("/")
-
+    localStorage.removeItem('token')
+    navigate("/")
   }
 
   const handleVideoClick = (video) => {
@@ -102,32 +100,36 @@ const fetchDataWithSearch = async () => {
     setSelectedVideo(null);
   };
 
-  const itemsPerPage = 4; 
+  const itemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
   const [previousPage, setPreviousPage] = useState(1);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
-  console.log(courseList,"course")
+  console.log(courseList, "course")
   const displayedCourses = courseList.slice(startIndex, endIndex);
-  
+
   const handleNextClick = () => {
     if (endIndex < courseList.length) {
       setPreviousPage(currentPage);
       setCurrentPage(currentPage + 1);
-    } 
+    }
   };
 
   const handlePreviousClick = () => {
     if (startIndex > 0) {
       setCurrentPage(previousPage);
-    } 
+    }
   };
 
 
-  const itemsPerPage1 = 5; 
+  const itemsPerPage1 = 5;
   const [currentAuthorPage, setCurrentAuthorPage] = useState(1);
   const [notifications, setNotifications] = useState(false)
+
+  const toggleNotifications = () => {
+    setNotifications(!notifications)
+  }
   const [previousAuthorPage, setPreviousAuthorPage] = useState(1);
 
   const startAuthorIndex = (currentPage - 1) * itemsPerPage1;
@@ -139,19 +141,16 @@ const fetchDataWithSearch = async () => {
     if (endAuthorIndex < authorList.length) {
       setPreviousAuthorPage(currentAuthorPage)
       setCurrentAuthorPage(currentAuthorPage + 1);
-    } 
+    }
   };
   const handleAuthorPreviousClick = () => {
     if (startAuthorIndex > 0) {
       setCurrentAuthorPage(previousPage);
-    } 
+    }
   };
 
 
 
-  const toggleNotifications = () => {
-    setNotifications(!notifications)
-  }
 
 
 
@@ -168,7 +167,7 @@ const fetchDataWithSearch = async () => {
             <h1 className="text-xl font-bold text-blue-900">Welcome, {name}!</h1>
           </div>
         </div>
-   
+
 
         <div className="flex items-center">
           <div className="relative">
@@ -179,7 +178,7 @@ const fetchDataWithSearch = async () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <span className="absolute right-4 top-2 text-gray-500"> 
+            <span className="absolute right-4 top-2 text-gray-500">
               <FaSearch className="w-5 h-5" />
             </span>
           </div>
@@ -195,7 +194,7 @@ const fetchDataWithSearch = async () => {
           </div> */}
 
           <div className="ml-4 relative">
-            <span className="text-yellow-500 rounded-full w-8 h-8 flex items-center justify-center bg-yellow-100 mr-6" onClick = {toggleNotifications}>
+            <span className="text-yellow-500 rounded-full w-8 h-8 flex items-center justify-center bg-yellow-100 mr-6" onClick={toggleNotifications}>
               <BellIcon className="w-5 h-5" />
             </span>
             <span className="absolute -top-2 right-4 text-white bg-red-500 rounded-full w-4 h-4 text-xs flex items-center justify-center">
@@ -218,10 +217,10 @@ const fetchDataWithSearch = async () => {
                 </div>
               </div>
             )}
-            </div>
+          </div>
 
-          <button className="bg-white-500 hover:bg-blue-200 text-black border border-blue-500 font-bold py-2 px-4 rounded-full" onClick= {handleLogoutClick}>
-          Log Out
+          <button className="bg-white-500 hover:bg-blue-200 text-black border border-blue-500 font-bold py-2 px-4 rounded-full" onClick={handleLogoutClick}>
+            Log Out
           </button>
         </div>
 
@@ -232,7 +231,7 @@ const fetchDataWithSearch = async () => {
           <div className="flex flex-wrap -mx-4">
             {displayedCourses.map((course) => (
               <div key={course._id} className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-4">
-                <a href="" className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
+                <a href={`/user-lesson-details/${course._id}`} className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
                   <div className="relative pb-48 overflow-hidden">
                     <img
                       className="absolute inset-0 h-full w-full object-cover"
@@ -241,13 +240,20 @@ const fetchDataWithSearch = async () => {
                     />
                   </div>
                   <div className="p-4">
-                
-                      <span className="inline-block px-2 py-1 leading-none bg-orange-200 text-orange-800 rounded-full font-semibold uppercase tracking-wide text-xs">
+
+                    {/* <span className="inline-block px-2 py-1 leading-none bg-orange-200 text-orange-800 rounded-full font-semibold uppercase tracking-wide text-xs">
                         
-                      </span>
-                  
+                      </span> */}
+
                     <h2 className="mt-2 mb-2 font-bold">{course.course}</h2>
-                    <p className="text-sm">{course.description}</p>
+
+                    {course.description ? (
+                      <p className="text-sm">{course.description}</p>
+                    ) : (
+                      <p className="text-sm">&nbsp;</p>
+                    )}
+
+
                     <div className="mt-3 flex items-center">
                       <span className="text-sm font-semibold"></span>
                       <span className="font-bold text-xl">300</span>
@@ -256,7 +262,7 @@ const fetchDataWithSearch = async () => {
                   </div>
                   <div className="p-4 border-t border-b text-xs text-gray-700">
                     <span className="flex items-center mb-1">
-                      <i className="far fa-clock fa-fw mr-2 text-gray-900"></i>Duration: 2.30 hours
+                      <i className="far fa-clock fa-fw mr-2 text-gray-900"></i>Course: 10 lessons
                     </span>
                     <span className="flex items-center">
                       <i className="far fa-address-card fa-fw text-gray-900 mr-2"></i>Discount : 10%
@@ -282,20 +288,20 @@ const fetchDataWithSearch = async () => {
             ))}
           </div>
           <div className="flex justify-end">
-          { displayedCourses.length > 0 && endIndex < courseList.length && (
-          
-            <button onClick={handleNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              <FontAwesomeIcon icon={faArrowRight} /> 
-            </button>
-          )}
+            {displayedCourses.length > 0 && endIndex < courseList.length && (
+
+              <button onClick={handleNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+            )}
           </div>
           <div className="flex justify-start">
-            { startIndex >= 4 && (
-              
-            <button onClick={handlePreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              <FontAwesomeIcon icon={faArrowLeft} /> 
-            </button>
-              )}
+            {startIndex >= 4 && (
+
+              <button onClick={handlePreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -323,21 +329,21 @@ const fetchDataWithSearch = async () => {
             ))}
           </div>
           <div className="flex justify-end">
-          { displayedAuthorCourses.length > 0 && endAuthorIndex < authors.length && (
-          
-            <button onClick={handleAuthorNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              <FontAwesomeIcon icon={faArrowRight} /> 
-            </button>
-          )}
+            {displayedAuthorCourses.length > 0 && endAuthorIndex < authors.length && (
+
+              <button onClick={handleAuthorNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+            )}
           </div>
           <div className="flex justify-start"></div>
-            { startAuthorIndex > 4 && (
-              
+          {startAuthorIndex > 4 && (
+
             <button onClick={handleAuthorPreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              <FontAwesomeIcon icon={faArrowLeft} /> 
+              <FontAwesomeIcon icon={faArrowLeft} />
             </button>
-              )}
-          </div>
+          )}
+        </div>
       </div>
     </div>
   );

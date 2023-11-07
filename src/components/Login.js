@@ -15,6 +15,7 @@ function Login() {
       const response = await axios.post("http://localhost:4000/api/v1/user/login", values);
       console.log(response.data.data,"data")
       if (response.data.data && response.data.data.session.session_token) {
+        console.log(response.data.data )
         localStorage.setItem('token', response.data.data.session.session_token);
         localStorage.setItem('user_name', response.data.data.user.name);
         navigate('/user-profile');

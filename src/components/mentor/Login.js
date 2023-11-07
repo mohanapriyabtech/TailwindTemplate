@@ -16,14 +16,16 @@ function Login() {
       console.log(response.data.data,"data")
       if (response.data.data && response.data.data.session.session_token) {
         localStorage.setItem('token', response.data.data.session.session_token);
-        localStorage.setItem('user_name', response.data.data.user.name);
-        navigate('/user-profile');
+        console.log(response.data.data,"reeeee")
+        localStorage.setItem('mentor_name', response.data.data.mentor.mentor_name);
+        localStorage.setItem('mentor_id',response.data.data.mentor._id);
+        navigate('/mentor-course');
       } else {
         setError('Login failed. Please check your credentials.');
       }
     } catch (error) {
       console.error('Login failed:', error);
-      setError('Login failed. Please try again later.');
+      setError('Invaild credentials.');
     }
   };
 
@@ -113,7 +115,7 @@ function Login() {
         </form>
         <div className="text-center text-sm text-gray-700">
           Don't have an account?{' '}
-          <Link to="/signup" className="text-blue-500 hover:underline">
+          <Link to="/mentor-signup" className="text-blue-500 hover:underline">
             Sign Up
           </Link>
         </div>

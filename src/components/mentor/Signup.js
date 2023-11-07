@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import signup from "../webim/signup.webp";
+import signup from "../../webim/signup.webp";
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -15,7 +15,7 @@ function Signup() {
     
       const response = await axios.post('http://localhost:4000/api/v1/mentor/signup', values);
       localStorage.setItem('token', response.data.data.session.session_token);
-      navigate('/user-profile');
+      navigate('/mentor-course');
     } catch (error) {
       console.error('Signup failed:', error);
     }
@@ -24,14 +24,24 @@ function Signup() {
 
   const signupFormik = useFormik({
     initialValues: {
-      name: '',
+      mentor_name: '',
       email: '',
       password: '',
+      phone_number: ''
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Required'),
+      mentor_name: Yup.string().required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().required('Required'),
+      password: Yup.string()
+      .required('Password is required')
+      .min(8, 'Password must be at least 8 characters long')
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        'Password must contain at least one letter, one number, and one special character'
+      ),
+      phone_number: Yup.string()
+      .required('Phone number is required')
+      .matches(/^\d{10}$/, 'Phone number must be a 10-digit number'),
     }),
     onSubmit: handleSignupSubmit,
   });
@@ -66,16 +76,16 @@ function Signup() {
               <input
                 className="w-full px-3 py-2 border rounded shadow appearance-none"
                 id="name"
-                name="name"
+                name="mentor_name"
                 type="text"
                 placeholder="Name"
                 onChange={signupFormik.handleChange}
                 onBlur={signupFormik.handleBlur}
-                value={signupFormik.values.name}
+                value={signupFormik.values.mentor_name}
               />
             </div>
-            {signupFormik.touched.name && signupFormik.errors.name ? (
-              <div className="text-red-600">{signupFormik.errors.name}</div>
+            {signupFormik.touched.mentor_name && signupFormik.errors.mentor_name ? (
+              <div className="text-red-600">{signupFormik.errors.mentor_name}</div>
             ) : null}
 
             <div className="mb-4">
@@ -95,6 +105,22 @@ function Signup() {
             {signupFormik.touched.email && signupFormik.errors.email ? (
               <div className="text-red-600">{signupFormik.errors.email}</div>
             ) : null}
+            
+            <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="phone_number">Mobile Number</label>
+              <input
+                className="w-full px-3 py-2 border rounded shadow appearance-none"
+                rows="3"
+                placeholder="0000000000"
+                name="phone_number"
+                value={signupFormik.values.phone_number}
+                onChange={signupFormik.handleChange}
+              />
+            
+            {signupFormik.touched.phone_number && signupFormik.errors.phone_number ? (
+              <div className="text-red-600">{signupFormik.errors.phone_number}</div>
+            ) : null}
+          </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="password">
                 Password
@@ -130,7 +156,7 @@ function Signup() {
           </form>
           <div className="text-center text-sm text-gray-700">
             Already have an account?{' '}
-            <Link to="/login" className="text-blue-500 hover:underline">
+            <Link to="/mentor-login" className="text-blue-500 hover:underline">
               Login
             </Link>
           </div>
