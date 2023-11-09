@@ -1,6 +1,12 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+ 
 import userData from './userData.json';
+  
+
+
+
+
 
 function AuthorCourses() {
   const { authorId } = useParams();

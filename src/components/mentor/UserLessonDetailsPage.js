@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+ 
 import { useParams ,useNavigate} from 'react-router-dom';
 import courseImage from "../../webim/program.jpg"
 import { MailIcon, BellIcon } from '@heroicons/react/solid';
 import { FaSearch } from 'react-icons/fa';
-import userData from "../../components/userData.json"
+import userData from "../../components/userData.json";
+import video from "/home/sparkout/Documents/projects/TailwindTemplate/src/webim/pex.mp4"
+  
+
+
 
 function UserLessonDetailsPage() {
   const { courseId } = useParams();
@@ -16,17 +21,18 @@ function UserLessonDetailsPage() {
   const { user, recommendedVideos, authors } = userData;
 
 
+
   useEffect(() => {
 
     const fetchLessonList = async () => {
       try {
         const course_id = localStorage.getItem('course_id')
-        const response = await axios.get(`http://localhost:4000/api/v1/mentor/get-lesson-by-course/${courseId}`);
+        const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-lesson-by-course/${courseId}`);
         const lessonData = response.data.data;
         setLessonData(lessonData);
         // Get the mentor name using mentor_id
         const mentorId = lessonData[0].mentor_id;
-        const mentorResponse = await axios.get(`http://localhost:4000/api/v1/mentor/get-mentor/${mentorId}`);
+        const mentorResponse = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-mentor/${mentorId}`);
         const mentorData = mentorResponse.data.data;
         setMentorName(mentorData.mentor_name);
 
@@ -143,12 +149,14 @@ function UserLessonDetailsPage() {
               <div key={lesson._id} className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-4">
                 <a href={`/lessons/${lesson._id}`} className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden">
                   <div className="relative pb-48 overflow-hidden">
-                    <img
-                      className="absolute inset-0 h-full w-full object-cover"
-                      // src={lesson.courseImage}
-                      src={courseImage}
-                      alt="courseImage"
-                    />
+                  <video
+                    controls
+                    className="absolute inset-0 h-full w-full object-cover"
+                    src={video}  
+                    alt="Video"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
                   </div>
                   <div className="p-4">
                     <h2 className="mt-2 mb-2 font-bold">{lesson.title}</h2>

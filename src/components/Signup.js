@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+ 
 import signup from "../webim/signup.webp";
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+  
 
 function Signup() {
   const apiUrl = process.env.REACT_APP_API_URL || '';
@@ -13,7 +15,7 @@ function Signup() {
   const handleSignupSubmit = async (values) => {
     try {
     
-      const response = await axios.post('http://localhost:4000/api/v1/user/signup', values);
+      const response = await axios.post(`https://learning-application.onrender.com/api/v1/user/signup`, values);
       localStorage.setItem('token', response.data.data.session.session_token);
       navigate('/user-profile');
     } catch (error) {

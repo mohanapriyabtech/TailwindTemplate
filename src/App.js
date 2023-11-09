@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 import Navbar from '../src/components/Navbar';
 import Header from '../src/components/Header';
 import FeatureSection from './components/FeatureSection';
@@ -21,6 +23,10 @@ import MentorLessonDetailsPage from './components/mentor/MentorLessonDetailsPage
 import UserLessonDetailsPage from './components/mentor/UserLessonDetailsPage';
 
 
+
+
+
+
 function MainLayout() {
   return (
     <div className="App">
@@ -36,6 +42,9 @@ function MainLayout() {
 function App() {
   return (
     <Router>
+       {/* // if we need this in all pages  example like toast ,navbar*/}
+       <ToastContainer />  
+      
       <Routes>
         <Route path="/" element={<MainLayout />} />
         <Route path="/signup" element={<Signup />} />
@@ -51,9 +60,8 @@ function App() {
         <Route path="/mentor-edit-course/:id" element={<EditCourse />} />
 
         <Route path="/mentor-lesson-details/:courseId" element={<MentorLessonDetailsPage/>} />
-
-
         <Route path= "/auth-courses" element= {<AuthorCourses />} />
+       
       </Routes>
     </Router>
   );

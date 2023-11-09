@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
+ 
 import { ReactComponent as EditIcon } from '../../icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../icons/trash.svg';
 import PaginationInfo from '../TablePagination';
 import logo from '../../webim/logo.png';
 import { MailIcon, BellIcon } from '@heroicons/react/solid';
+  
 
 
 const MentorLessionPage = () => {
@@ -35,14 +37,14 @@ const MentorLessionPage = () => {
 
 
   // Fetch category data from an API
-  const apiUrl = "http://localhost:4000/api/v1/admin/list-category";
+  const apiUrl = `https://learning-application.onrender.com/api/v1/admin/list-category`;
 
   const mentorId = localStorage.getItem('mentor_id')
 
 
   const fetchCourseList = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/v1/mentor/get-course-by-mentor/${mentorId}`);
+      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-course-by-mentor/${mentorId}`);
       const courseData = response.data.data;
       setCourseList(courseData);
       setTotalItems(courseData.length)
@@ -63,7 +65,7 @@ const MentorLessionPage = () => {
 
   const fetchAuthorList = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/mentor/list-mentor");
+      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
       const categoryData = response.data.data;
       setAuthorList(categoryData);
     } catch (error) {
@@ -80,7 +82,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://localhost:4000/api/v1/mentor/search-course?course=${searchCourseQuery}`,
+        `https://learning-application.onrender.com/api/v1/mentor/search-course?course=${searchCourseQuery}`,
         { headers }
       );
       setCourseList(response.data.data);
@@ -125,7 +127,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://localhost:4000/api/v1/admin/search-category?category=${searchQuery}`,
+        `https://learning-application.onrender.com/api/v1/admin/search-category?category=${searchQuery}`,
         { headers }
       );
       setCategoryList(response.data.data);
@@ -149,7 +151,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `http://localhost:4000/api/v1/mentor/search-mentor?mentor=${searchAuthorQuery}`,
+        `https://learning-application.onrender.com/api/v1/mentor/search-mentor?mentor=${searchAuthorQuery}`,
         { headers }
       );
       setAuthorList(response.data.data);
@@ -217,15 +219,46 @@ const MentorLessionPage = () => {
 
 
   const totalItem = displayedCourses.length; // Total number of items
+  
 
-
-  const handleCheckboxChange = (categoryId) => {
-    if (selectedCourses.includes(categoryId)) {
-      setSelectedCourses(selectedCourses.filter((selectedCourse) => selectedCourse !== categoryId));
-    } else {
-      setSelectedCourses([...selectedCourses, categoryId]);
+  const fetchCoursesByCategories = async (selectedCategoryIds) => {
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+    
+      const response = await axios.get(
+        `https://learning-application.onrender.com/api/v1/mentor/get-course-by-category/${selectedCategoryIds.join(',')}`,
+        {
+          headers,
+        }
+      );
+      
+      // Update the course list
+      setCourseList(response.data.data);
+      setTotalItems(response.data.data.length);
+    } catch (error) {
+      console.error('Error filtering courses:', error);
     }
   };
+  
+  const handleCheckboxChange = (categoryId) => {
+    let updatedSelectedCourses;
+    if (selectedCourses.includes(categoryId)) {
+      updatedSelectedCourses = selectedCourses.filter((selectedCourse) => selectedCourse !== categoryId);
+    } else {
+      updatedSelectedCourses = [...selectedCourses, categoryId];
+    }
+    
+    setSelectedCourses(updatedSelectedCourses);
+    fetchCoursesByCategories(updatedSelectedCourses);
+  };
+  
+
+
+
+  
   
   // Pagination for filtered courses
   const [currentFilteredCoursePage, setCurrentFilteredCoursePage] = useState(1);
@@ -240,7 +273,6 @@ const MentorLessionPage = () => {
     const displayedFilteredCourses = filteredCourses.slice(firstFilteredCourseIndex, lastFilteredCourseIndex);
     
     const itemsPerTablePage = 10 // Number of items per page
-   console.log(currentFilteredCoursePage,"tottttttttt")
 
 
 
@@ -264,7 +296,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      await axios.delete(`http://localhost:4000/api/v1/mentor/delete-course/${projectId}`, { headers });
+      await axios.delete(`https://learning-application.onrender.com/api/v1/mentor/delete-course/${projectId}`, { headers });
 
       setCourseList(courseList.filter(project => project.id !== projectId));
       fetchCourseList()
@@ -502,10 +534,10 @@ useEffect(() => {
           <PaginationInfo
             currentPage={currentFilteredCoursePage}
             itemsPerPage={itemsPerTablePage}
-            totalItems={displayedFilteredCourses.length}
+            totalItems={totalItems}
           />
           <div className="flex justify-end mt-3">
-            
+
             {currentFilteredCoursePage > 1 && (
               <button
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

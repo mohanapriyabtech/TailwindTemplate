@@ -2,12 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
+ 
 import { ReactComponent as EditIcon } from '../../icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../icons/trash.svg';
 import PaginationInfo from '../TablePagination';
 import logo from '../../webim/logo.png';
 import { useParams } from 'react-router-dom';
 import { MailIcon, BellIcon } from '@heroicons/react/solid';
+  
 
 
 const MentorLessonDetailsPage = () => {
@@ -19,7 +21,6 @@ const MentorLessonDetailsPage = () => {
   const [totalItems, setTotalItems] = useState(0);
 
   const [selectedCourses, setSelectedCourses] = useState([]);
-
 
   const [currentPage, setCurrentPage] = useState(1);
   const categorysPerPage = 10;
@@ -33,12 +34,12 @@ const MentorLessonDetailsPage = () => {
 
 
   // Fetch category data from an API
-  const apiUrl = "http://localhost:4000/api/v1/admin/list-category";
+  const apiUrl = `https://learning-application.onrender.com/api/v1/admin/list-category`;
 
 
   const fetchLessonList = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/v1/mentor/get-lesson-by-course/${courseId}`);
+      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-lesson-by-course/${courseId}`);
       const lessonData = response.data.data;
       setLessonList(lessonData);
       setTotalItems(lessonData.length)
@@ -82,7 +83,7 @@ const MentorLessonDetailsPage = () => {
           Authorization: `Bearer ${token}`,
         };
         const response = await axios.get(
-          `http://localhost:4000/api/v1/mentor/search-lesson?lesson=${searchQuery}`,
+          `https://learning-application.onrender.com/api/v1/mentor/search-lesson?lesson=${searchQuery}`,
           { headers }
         );
         setLessonList(response.data.data);
@@ -157,7 +158,7 @@ const MentorLessonDetailsPage = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      await axios.delete(`http://localhost:4000/api/v1/mentor/delete-lesson/${projectId}`, { headers });
+      await axios.delete(`https://learning-application.onrender.com/api/v1/mentor/delete-lesson/${projectId}`, { headers });
 
       setLessonList(lessonList.filter(project => project.id !== projectId));
       fetchLessonList()

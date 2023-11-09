@@ -3,13 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+ 
 import logo from '../../webim/logo.png';
 
+
 const validationSchema = Yup.object().shape({
-    description: Yup.string().required('Description is required'),
-    course: Yup.string().required('Course name is required'),
+    description: Yup.string().trim().required('Description is required'),
+    course: Yup.string().trim().required('Course name is required'),
     instructor: Yup.string().required('Instructor is required'),
-    cover_image: Yup.string(),
+    cover_image: Yup.string().trim(),
     category_id: Yup.string().required('Category is required'),
 });
 
@@ -28,7 +30,7 @@ function CourseCreatePage() {
     useEffect(() => {
         const fetchInstructors = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/api/v1/mentor/list-mentor`);
+                const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
                 const instructorData = response.data.data;
                 setInstructors(instructorData);
             } catch (error) {
@@ -39,7 +41,7 @@ function CourseCreatePage() {
         fetchInstructors();
         const fetchCategory = async () => {
             try {
-                const response = await axios.get(`http://localhost:4000/api/v1/admin/list-category`);
+                const response = await axios.get(`https://learning-application.onrender.com/api/v1/admin/list-category`);
                 const categoryData = response.data.data;
                 setCategories(categoryData);
 
@@ -69,7 +71,7 @@ function CourseCreatePage() {
             file_data.append('media', formik.values.cover_image);
             file_data.append('service', 'courses');
 
-            const fileResponse = await axios.post(`http://localhost:4000/api/v1/file-upload/upload`, file_data, {
+            const fileResponse = await axios.post(`https://learning-application.onrender.com/api/v1/file-upload/upload`, file_data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -78,7 +80,7 @@ function CourseCreatePage() {
             form_data.append('cover_image', fileResponse.data.data[0].name);
 
             const token = localStorage.getItem('token');
-            const response = await axios.post(`http://localhost:4000/api/v1/admin/create-course`, form_data, {
+            const response = await axios.post(`https://learning-application.onrender.com/api/v1/admin/create-course`, form_data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,

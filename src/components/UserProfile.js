@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MailIcon, BellIcon } from '@heroicons/react/solid';
 import { useNavigate } from "react-router-dom";
+ 
 import { FaSearch } from 'react-icons/fa';
 import userData from "../components/userData.json"
 import axios from 'axios';
@@ -22,6 +23,7 @@ import courseImage from "../webim/program.jpg"
 
 
 
+
 function UserProfile() {
   const navigate = useNavigate();
   const { user, recommendedVideos, authors } = userData;
@@ -31,7 +33,7 @@ function UserProfile() {
   const [searchQuery, setSearchQuery] = useState('');
 
 
-  const apiUrl = "http://localhost:4000/api/v1/user/list-course"
+  const apiUrl = `https://learning-application.onrender.com/api/v1/user/list-course`
 
   useEffect(() => {
     fetchAuthorList()
@@ -39,7 +41,7 @@ function UserProfile() {
     const fetchCourseList = async () => {
       try {
 
-        const response = await axios.get("http://localhost:4000/api/v1/user/list-course");
+        const response = await axios.get(`https://learning-application.onrender.com/api/v1/user/list-course`);
         const courseData = response.data.data;
         console.log(courseData, "courseData")
         setCourseList(courseData);
@@ -76,7 +78,7 @@ function UserProfile() {
 
   const fetchAuthorList = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/v1/mentor/list-mentor");
+      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
       const authorData = response.data.data;
       console.log(authorData, "authorData");
       setAuthorList(authorData);
@@ -328,7 +330,7 @@ function UserProfile() {
               </div>
             ))}
           </div>
-          <div className="flex justify-end">
+          {/* <div className="flex justify-end">
             {displayedAuthorCourses.length > 0 && endAuthorIndex < authors.length && (
 
               <button onClick={handleAuthorNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -342,7 +344,7 @@ function UserProfile() {
             <button onClick={handleAuthorPreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>
