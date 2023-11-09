@@ -34,12 +34,12 @@ const MentorLessonDetailsPage = () => {
 
 
   // Fetch category data from an API
-  const apiUrl = `https://learning-application.onrender.com/api/v1/admin/list-category`;
+  const apiUrl = `${process.env.REACT_APP_API_URL}/api/v1/admin/list-category`;
 
 
   const fetchLessonList = async () => {
     try {
-      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-lesson-by-course/${courseId}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/get-lesson-by-course/${courseId}`);
       const lessonData = response.data.data;
       setLessonList(lessonData);
       setTotalItems(lessonData.length)
@@ -83,7 +83,7 @@ const MentorLessonDetailsPage = () => {
           Authorization: `Bearer ${token}`,
         };
         const response = await axios.get(
-          `https://learning-application.onrender.com/api/v1/mentor/search-lesson?lesson=${searchQuery}`,
+          `${process.env.REACT_APP_API_URL}/api/v1/mentor/search-lesson?lesson=${searchQuery}`,
           { headers }
         );
         setLessonList(response.data.data);
@@ -158,7 +158,7 @@ const MentorLessonDetailsPage = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      await axios.delete(`https://learning-application.onrender.com/api/v1/mentor/delete-lesson/${projectId}`, { headers });
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/mentor/delete-lesson/${projectId}`, { headers });
 
       setLessonList(lessonList.filter(project => project.id !== projectId));
       fetchLessonList()

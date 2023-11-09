@@ -30,14 +30,14 @@ const MentorPage = () => {
   const itemsPerTablePage = 6; // Number of items per page
   const totalItems = 6; // Total number of items
 
-  const apiUrl = `https://learning-application.onrender.com/api/v1/user/list-course`
+  const apiUrl = `${process.env.REACT_APP_API_URL}/api/v1/user/list-course`
 
   useEffect(() => {
 
     const fetchCourseList = async () => {
       try {
         
-        const response = await axios.get(`https://learning-application.onrender.com/api/v1/user/list-course`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/user/list-course`);
         const courseData = response.data.data;
         console.log(courseData,"courseData")
         setCourseList(courseData);

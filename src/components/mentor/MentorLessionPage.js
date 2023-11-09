@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
- 
+
 import { ReactComponent as EditIcon } from '../../icons/edit.svg';
 import { ReactComponent as DeleteIcon } from '../../icons/trash.svg';
 import PaginationInfo from '../TablePagination';
 import logo from '../../webim/logo.png';
 import { MailIcon, BellIcon } from '@heroicons/react/solid';
-  
+import { MdClose, MdDone } from 'react-icons/md';
+
 
 
 const MentorLessionPage = () => {
   const editButtonRef = useRef(null);
-  const [editButton , setEditButton] = useState([])
+  const [editButton, setEditButton] = useState([])
 
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,14 +38,14 @@ const MentorLessionPage = () => {
 
 
   // Fetch category data from an API
-  const apiUrl = `https://learning-application.onrender.com/api/v1/admin/list-category`;
+  const apiUrl = `${process.env.REACT_APP_API_URL}/api/v1/admin/list-category`;
 
   const mentorId = localStorage.getItem('mentor_id')
 
 
   const fetchCourseList = async () => {
     try {
-      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-course-by-mentor/${mentorId}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/get-course-by-mentor/${mentorId}`);
       const courseData = response.data.data;
       setCourseList(courseData);
       setTotalItems(courseData.length)
@@ -65,7 +66,7 @@ const MentorLessionPage = () => {
 
   const fetchAuthorList = async () => {
     try {
-      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/list-mentor`);
       const categoryData = response.data.data;
       setAuthorList(categoryData);
     } catch (error) {
@@ -82,7 +83,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `https://learning-application.onrender.com/api/v1/mentor/search-course?course=${searchCourseQuery}`,
+        `${process.env.REACT_APP_API_URL}/api/v1/mentor/search-course?course=${searchCourseQuery}`,
         { headers }
       );
       setCourseList(response.data.data);
@@ -97,7 +98,7 @@ const MentorLessionPage = () => {
     fetchAuthorList();
     fetchCourseList();
     fetchCategoryList();
-   
+
 
   }, []);
 
@@ -127,7 +128,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `https://learning-application.onrender.com/api/v1/admin/search-category?category=${searchQuery}`,
+        `${process.env.REACT_APP_API_URL}/api/v1/admin/search-category?category=${searchQuery}`,
         { headers }
       );
       setCategoryList(response.data.data);
@@ -151,7 +152,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
       const response = await axios.get(
-        `https://learning-application.onrender.com/api/v1/mentor/search-mentor?mentor=${searchAuthorQuery}`,
+        `${process.env.REACT_APP_API_URL}/api/v1/mentor/search-mentor?mentor=${searchAuthorQuery}`,
         { headers }
       );
       setAuthorList(response.data.data);
@@ -161,7 +162,7 @@ const MentorLessionPage = () => {
   };
 
 
- 
+
 
   // category pagination
 
@@ -216,10 +217,7 @@ const MentorLessionPage = () => {
   const displayedCourses = courseList.slice(firstCourseIndex, lastCourseIndex);
 
   // set pagination
-
-
   const totalItem = displayedCourses.length; // Total number of items
-  
 
   const fetchCoursesByCategories = async (selectedCategoryIds) => {
     try {
@@ -227,14 +225,14 @@ const MentorLessionPage = () => {
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-    
+
       const response = await axios.get(
-        `https://learning-application.onrender.com/api/v1/mentor/get-course-by-category/${selectedCategoryIds.join(',')}`,
+        `${process.env.REACT_APP_API_URL}/api/v1/mentor/get-course-by-category/${selectedCategoryIds.join(',')}`,
         {
           headers,
         }
       );
-      
+
       // Update the course list
       setCourseList(response.data.data);
       setTotalItems(response.data.data.length);
@@ -242,7 +240,7 @@ const MentorLessionPage = () => {
       console.error('Error filtering courses:', error);
     }
   };
-  
+
   const handleCheckboxChange = (categoryId) => {
     let updatedSelectedCourses;
     if (selectedCourses.includes(categoryId)) {
@@ -250,29 +248,29 @@ const MentorLessionPage = () => {
     } else {
       updatedSelectedCourses = [...selectedCourses, categoryId];
     }
-    
+
     setSelectedCourses(updatedSelectedCourses);
     fetchCoursesByCategories(updatedSelectedCourses);
   };
-  
 
 
 
-  
-  
+
+
+
   // Pagination for filtered courses
   const [currentFilteredCoursePage, setCurrentFilteredCoursePage] = useState(1);
   const itemsPerFilteredCoursePage = 10;
-  
+
   const filteredCourses = selectedCourses.length
     ? courseList.filter((course) => selectedCourses.includes(course.category_id._id))
     : courseList;
-  
-    const lastFilteredCourseIndex = currentFilteredCoursePage * itemsPerFilteredCoursePage;
-    const firstFilteredCourseIndex = lastFilteredCourseIndex - itemsPerFilteredCoursePage;
-    const displayedFilteredCourses = filteredCourses.slice(firstFilteredCourseIndex, lastFilteredCourseIndex);
-    
-    const itemsPerTablePage = 10 // Number of items per page
+
+  const lastFilteredCourseIndex = currentFilteredCoursePage * itemsPerFilteredCoursePage;
+  const firstFilteredCourseIndex = lastFilteredCourseIndex - itemsPerFilteredCoursePage;
+  const displayedFilteredCourses = filteredCourses.slice(firstFilteredCourseIndex, lastFilteredCourseIndex);
+
+  const itemsPerTablePage = 10 // Number of items per page
 
 
 
@@ -296,7 +294,7 @@ const MentorLessionPage = () => {
         Authorization: `Bearer ${token}`,
       };
 
-      await axios.delete(`https://learning-application.onrender.com/api/v1/mentor/delete-course/${projectId}`, { headers });
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/mentor/delete-course/${projectId}`, { headers });
 
       setCourseList(courseList.filter(project => project.id !== projectId));
       fetchCourseList()
@@ -322,34 +320,116 @@ const MentorLessionPage = () => {
     navigate(`/mentor-lesson-details/${courseId}`);
   };
 
-  const [notifications, setNotifications] = useState(false)
 
-  const toggleNotifications = () => {
-    setNotifications(!notifications)
-  }
 
   //log out function
   const handleLogoutClick = () => {
     localStorage.removeItem('token')
     navigate("/")
-}
-
-
-useEffect(() => {
-  // Use the ref to focus 
-  if (editButtonRef.current) {
-    setTimeout(() => {
-      editButtonRef.current.focus();
-    }, 100); // Adjust the delay as needed
   }
-}, [editButton]);
+
+
+  useEffect(() => {
+    // Use the ref to focus 
+    if (editButtonRef.current) {
+      setTimeout(() => {
+        editButtonRef.current.focus();
+      }, 100); // Adjust the delay as needed
+    }
+  }, [editButton]);
 
 
 
+  // Notifications logic
+
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const notificationContainerStyle = {
+    maxHeight: '300px', // Set the maximum height as needed
+    overflowY: 'auto',
+  };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/notification/notification-list`, { headers });
+        setNotifications(response.data.data.results);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  const toggleNotifications = () => {
+    setShowNotifications(!showNotifications);
+  };
 
 
+  const handleMarkAsRead = async (notificationId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+  
+      const response = await axios.patch(
+        `${process.env.REACT_APP_API_URL}/api/v1/notification/read-notification`,
+        { notifications: notificationId },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data.data,"read")
+  
+      // Update local state to mark the notification as read and decrement the count
+      setNotifications((prevNotifications) =>
+        prevNotifications.map((notification) => {
+          if (notification.id === notificationId && !notification.read) {
+            // Decrease the count only if the notification was unread
+            return { ...notification, read: true };
+          }
+          return notification;
+        })
+      );
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+  
+  const handleDeleteNotification = async (notificationId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+  
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/v1/notification/delete-notification/${notificationId}`,
+        { headers }
+      );
+  
+      // Update local state to remove the deleted notification and decrement the count
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter((notification) => notification.id !== notificationId)
+      );
 
-
+      console.log("hello")
+    } catch (error) {
+      console.error('Error deleting notification:', error);
+    }
+  };
+  
 
 
 
@@ -367,31 +447,56 @@ useEffect(() => {
           </div>
           <div className="flex flex-row justify-end w-full">
             <div className="flex items-center">
-              {/* <input
-                type="text"
-                placeholder="Search"
-                className="border border-gray-300 rounded px-2 py-1 mr-4"
-                value={searchAuthorQuery}
-                onChange={(e) => setSearchAuthorQuery(e.target.value)}
-              /> */}
-              {notifications && (
-                <div className="fixed top-20 right-10 md:right-20 lg:right-20 xl:right-30 z-50">
-                  <div className="bg-white border border-gray-300 shadow-md rounded-lg w-72 md:w-80 p-4">
-                    <h2 className="text-xl font-bold mb-3">Notifications</h2>
-                    <ul className="list-disc pl-4">
-                      <li className="notification text-green-600 mb-2">
-                        <i className="fas fa-check-circle text-xl mr-2"></i>
-                        Notification 1 - This is a success message.
-                      </li>
-                      <li className="notification text-green-600 mb-2">
-                        <i className="fas fa-check-circle text-xl mr-2"></i>
-                        Notification 2 - Operation was successful.
-                      </li>
-                    </ul>
+              <div className="ml-4 relative">
+                <span className="text-yellow-500 rounded-full w-8 h-8 flex items-center justify-center bg-yellow-100 mr-6 cursor-pointer" onClick={toggleNotifications}>
+                  <BellIcon className="w-5 h-5" />
+                </span>
+                {notifications.length > 0 && (
+                  <span className="absolute -top-2 right-4 text-white bg-red-500 rounded-full w-4 h-4 text-xs flex items-center justify-center">
+                    {notifications.length}
+                  </span>
+                )}
+                {showNotifications && (
+                  <div className="fixed top-20 right-10 md:right-20 lg:right-20 xl:right-30 z-50">
+                    <div className="bg-white border border-gray-300 shadow-md rounded-lg w-72 md:w-80 p-4" style={notificationContainerStyle}>
+                      <h2 className="text-xl font-bold mb-3">Notifications</h2>
+                      <ul className="list-disc pl-4">
+                        {notifications.map((notification) => (
+                          <li key={notification.id} className={`notification mb-2 ${notification.read ? 'read' : 'unread'}`}>
+                            <div className="flex items-center">
+                              {notification.read ? (
+                                <i className="fas fa-check-circle text-green-500 text-xl mr-2"></i>
+                              ) : (
+                                <i className="fas fa-exclamation-circle text-red-500 text-xl mr-2"></i>
+                              )}
+                              <span className="flex-grow">{notification.message}</span>
+                              {!notification.read && (
+                                <button
+                                  className="text-green-500 hover:text-green-700 focus:outline-none"
+                                  onClick={() => handleMarkAsRead(notification._id)}
+                                >
+                                  <MdDone size={20} /> {/* Checkmark symbol */}
+                                </button>
+                              )}
+
+                              <button
+                                className="text-red-500 hover:text-red-700 ml-2 focus:outline-none"
+                                onClick={() => handleDeleteNotification(notification._id)}
+                              >
+                                <MdClose size={20} /> {/* Close (X) symbol */}
+                              </button>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              )}
-              <button className="text-white bg-green-700 hover-bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick= {handleLogoutClick}>Logout</button>
+                )}
+              </div>
+
+
+
+              <button className="text-white bg-green-700 hover-bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={handleLogoutClick}>Logout</button>
             </div>
           </div>
         </div>
@@ -410,25 +515,25 @@ useEffect(() => {
             />
           </div>
           {currentCategories.length === 0 ? (
-             <div className="w-32 h-32 mx-auto flex items-center justify-center ">
+            <div className="w-32 h-32 mx-auto flex items-center justify-center ">
               <p className="px-6 text-center text-gray-600 dark:text-gray-400">
                 No category found.
               </p>
             </div>
           ) : (
-          <ul>
-            {currentCategories.map((category) => (
-              <li key={category._id} className="flex items-center mb-2 ml-2" style={{ marginLeft: '2rem' }}>
-                <input
-                  type="checkbox"
-                  className="mr-2"
-                  checked={selectedCourses.includes(category._id)}
-                  onChange={() => handleCheckboxChange(category._id)}
-                />
-                {category.category_name}
-              </li>
-            ))}
-          </ul>
+            <ul>
+              {currentCategories.map((category) => (
+                <li key={category._id} className="flex items-center mb-2 ml-2" style={{ marginLeft: '2rem' }}>
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    checked={selectedCourses.includes(category._id)}
+                    onChange={() => handleCheckboxChange(category._id)}
+                  />
+                  {category.category_name}
+                </li>
+              ))}
+            </ul>
           )}
           <div>
             {categoryList.length > categorysPerPage && (
@@ -488,45 +593,45 @@ useEffect(() => {
               </tr>
             </thead>
             {displayedFilteredCourses.length === 0 ? (
-             <div className="w-100 h-32 mx-auto flex items-center justify-center ">
-              <p className="px-6 text-center text-gray-600 dark:text-gray-400">
-                No courses found.
-              </p>
-            </div>
-          ) : (
-            <tbody>
-              {displayedFilteredCourses.map((project, i) => (
-                <tr key={i} className="hover:bg-gray-100">
-                  <td className="border-t-2 border-b border-gray-300 p-2" >{project.course}</td>
-                  <td className="border-t-2 border-b border-gray-300 p-2">{project.category_id.category_name}</td>
-                  <td className="border-t-2 border-b border-gray-300 p-2">
-                    {project.status === 1 ? 'Approved' : 'Pending'}
-                  </td>
-                  <td className="border-t-2 border-b border-gray-300 p-2">
-                    {new Date(project.created_at).toLocaleDateString()}
-                  </td>
-                  <td className="border-t-2 border-b border-gray-300">
-                    <div className="space-x-2">
-                      <button ref={editButtonRef} layout="link" size="icon" aria-label="Edit" onClick={() => handleEditClick(project)} autoFocus>
-                        <EditIcon className="w-5 h-5" aria-hidden="true" />
+              <div className="w-100 h-32 mx-auto flex items-center justify-center ">
+                <p className="px-6 text-center text-gray-600 dark:text-gray-400">
+                  No courses found.
+                </p>
+              </div>
+            ) : (
+              <tbody>
+                {displayedFilteredCourses.map((project, i) => (
+                  <tr key={i} className="hover:bg-gray-100">
+                    <td className="border-t-2 border-b border-gray-300 p-2" >{project.course}</td>
+                    <td className="border-t-2 border-b border-gray-300 p-2">{project.category_id.category_name}</td>
+                    <td className="border-t-2 border-b border-gray-300 p-2">
+                      {project.status === 1 ? 'Approved' : 'Pending'}
+                    </td>
+                    <td className="border-t-2 border-b border-gray-300 p-2">
+                      {new Date(project.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="border-t-2 border-b border-gray-300">
+                      <div className="space-x-2">
+                        <button ref={editButtonRef} layout="link" size="icon" aria-label="Edit" onClick={() => handleEditClick(project)} autoFocus>
+                          <EditIcon className="w-5 h-5" aria-hidden="true" />
+                        </button>
+                        <button layout="link" size="icon" aria-label="Delete" onClick={() => { handleDeleteClick(project._id) }}>
+                          <DeleteIcon className="w-5 h-5" aria-hidden="true" />
+                        </button>
+                      </div>
+                    </td>
+                    <td className="border-t-2 border-b border-gray-300 p-2">
+                      <button
+                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        onClick={() => handleDocumentUpload(project._id)}
+                      >
+                        View
                       </button>
-                      <button layout="link" size="icon" aria-label="Delete" onClick={() => { handleDeleteClick(project._id) }}>
-                        <DeleteIcon className="w-5 h-5" aria-hidden="true" />
-                      </button>
-                    </div>
-                  </td>
-                  <td className="border-t-2 border-b border-gray-300 p-2">
-                    <button
-                      className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                      onClick={() => handleDocumentUpload(project._id)}
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
           </table>
 
           {/* pagination */}

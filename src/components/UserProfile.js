@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MailIcon, BellIcon } from '@heroicons/react/solid';
 import { useNavigate } from "react-router-dom";
- 
+
 import { FaSearch } from 'react-icons/fa';
 import userData from "../components/userData.json"
 import axios from 'axios';
@@ -33,7 +33,7 @@ function UserProfile() {
   const [searchQuery, setSearchQuery] = useState('');
 
 
-  const apiUrl = `https://learning-application.onrender.com/api/v1/user/list-course`
+  const apiUrl = `${process.env.REACT_APP_API_URL}/api/v1/user/list-course`
 
   useEffect(() => {
     fetchAuthorList()
@@ -41,7 +41,7 @@ function UserProfile() {
     const fetchCourseList = async () => {
       try {
 
-        const response = await axios.get(`https://learning-application.onrender.com/api/v1/user/list-course`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/user/list-course`);
         const courseData = response.data.data;
         console.log(courseData, "courseData")
         setCourseList(courseData);
@@ -78,7 +78,7 @@ function UserProfile() {
 
   const fetchAuthorList = async () => {
     try {
-      const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/list-mentor`);
       const authorData = response.data.data;
       console.log(authorData, "authorData");
       setAuthorList(authorData);
@@ -108,7 +108,6 @@ function UserProfile() {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
-  console.log(courseList, "course")
   const displayedCourses = courseList.slice(startIndex, endIndex);
 
   const handleNextClick = () => {
@@ -119,37 +118,38 @@ function UserProfile() {
   };
 
   const handlePreviousClick = () => {
-    if (startIndex > 0) {
-      setCurrentPage(previousPage);
+    if (startIndex >= itemsPerPage) {
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
 
   const itemsPerPage1 = 5;
   const [currentAuthorPage, setCurrentAuthorPage] = useState(1);
+  const [previousAuthorPage, setPreviousAuthorPage] = useState(1);
   const [notifications, setNotifications] = useState(false)
 
   const toggleNotifications = () => {
     setNotifications(!notifications)
   }
-  const [previousAuthorPage, setPreviousAuthorPage] = useState(1);
+  const itemsPerPageAuthor = 5;
 
-  const startAuthorIndex = (currentPage - 1) * itemsPerPage1;
-  const endAuthorIndex = currentPage * itemsPerPage1;
-  const displayedAuthorCourses = authorList.slice(startAuthorIndex, endAuthorIndex);
-  const name = localStorage.getItem("user_name")
+const startAuthorIndex = (currentAuthorPage - 1) * itemsPerPageAuthor;
+const endAuthorIndex = currentAuthorPage * itemsPerPageAuthor;
+const displayedAuthorCourses = authorList.slice(startAuthorIndex, endAuthorIndex);
 
-  const handleAuthorNextClick = () => {
-    if (endAuthorIndex < authorList.length) {
-      setPreviousAuthorPage(currentAuthorPage)
-      setCurrentAuthorPage(currentAuthorPage + 1);
-    }
-  };
-  const handleAuthorPreviousClick = () => {
-    if (startAuthorIndex > 0) {
-      setCurrentAuthorPage(previousPage);
-    }
-  };
+const handleAuthorNextClick = () => {
+  if (endAuthorIndex < authorList.length) {
+    setPreviousAuthorPage(currentAuthorPage);
+    setCurrentAuthorPage(currentAuthorPage + 1);
+  }
+};
+
+const handleAuthorPreviousClick = () => {
+  if (startAuthorIndex >= itemsPerPageAuthor) {
+    setCurrentAuthorPage((prevPage) => prevPage - 1);
+  }
+};
 
 
 
@@ -166,7 +166,7 @@ function UserProfile() {
             className="w-16 h-16 rounded-full"
           />
           <div className="ml-4">
-            <h1 className="text-xl font-bold text-blue-900">Welcome, {name}!</h1>
+            <h1 className="text-xl font-bold text-blue-900">Welcome, {user.name}!</h1>
           </div>
         </div>
 
@@ -249,11 +249,10 @@ function UserProfile() {
 
                     <h2 className="mt-2 mb-2 font-bold">{course.course}</h2>
 
-                    {course.description ? (
-                      <p className="text-sm">{course.description}</p>
-                    ) : (
-                      <p className="text-sm">&nbsp;</p>
-                    )}
+                    <div className="mt-2" style={{ minHeight: '1rem' }}>
+                      {course.description && <p className="text-sm">{course.description}</p>}
+                    </div>
+
 
 
                     <div className="mt-3 flex items-center">
@@ -289,22 +288,24 @@ function UserProfile() {
               </div>
             ))}
           </div>
-          <div className="flex justify-end">
-            {displayedCourses.length > 0 && endIndex < courseList.length && (
-
-              <button onClick={handleNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <FontAwesomeIcon icon={faArrowRight} />
-              </button>
-            )}
+          <div className="flex justify-between">
+           
+            <div >
+              {startIndex >= 4 && (
+                <button onClick={handlePreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+              )}
+            </div>
+            <div>
+              {displayedCourses.length > 0 && endIndex < courseList.length && (
+                <button onClick={handleNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              )}
+            </div>
           </div>
-          <div className="flex justify-start">
-            {startIndex >= 4 && (
 
-              <button onClick={handlePreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <FontAwesomeIcon icon={faArrowLeft} />
-              </button>
-            )}
-          </div>
         </div>
       </div>
 
@@ -329,6 +330,25 @@ function UserProfile() {
                 </div>
               </div>
             ))}
+          </div>
+
+
+          <div className="flex justify-between">
+           
+            <div >
+              {startAuthorIndex > 4 && (
+                <button onClick={handleAuthorPreviousClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+              )}
+            </div>
+            <div>
+              {displayedAuthorCourses.length > 0 && endAuthorIndex < authorList.length && (
+                <button onClick={handleAuthorNextClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              )}
+            </div>
           </div>
           {/* <div className="flex justify-end">
             {displayedAuthorCourses.length > 0 && endAuthorIndex < authors.length && (

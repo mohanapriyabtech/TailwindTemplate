@@ -15,7 +15,7 @@ function Login() {
 
   const handleLoginSubmit = async (values) => {
     try {
-      const response = await axios.post("https://learning-application.onrender.com/api/v1/mentor/login", values);
+      const response = await axios.post("process.env.REACT_APP_API_URL/api/v1/mentor/login", values);
       console.log(response.data.data,"data")
       if (response.data.data && response.data.data.session.session_token) {
         localStorage.setItem('token', response.data.data.session.session_token);

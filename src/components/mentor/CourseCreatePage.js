@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
- 
 import logo from '../../webim/logo.png';
 
 
@@ -30,7 +29,7 @@ function CourseCreatePage() {
     useEffect(() => {
         const fetchInstructors = async () => {
             try {
-                const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
+                const response = await axios.get(`${apiUrl}/api/v1/mentor/list-mentor`);
                 const instructorData = response.data.data;
                 setInstructors(instructorData);
             } catch (error) {
@@ -41,7 +40,7 @@ function CourseCreatePage() {
         fetchInstructors();
         const fetchCategory = async () => {
             try {
-                const response = await axios.get(`https://learning-application.onrender.com/api/v1/admin/list-category`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/admin/list-category`);
                 const categoryData = response.data.data;
                 setCategories(categoryData);
 
@@ -71,7 +70,7 @@ function CourseCreatePage() {
             file_data.append('media', formik.values.cover_image);
             file_data.append('service', 'courses');
 
-            const fileResponse = await axios.post(`https://learning-application.onrender.com/api/v1/file-upload/upload`, file_data, {
+            const fileResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/file-upload/upload`, file_data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -80,7 +79,7 @@ function CourseCreatePage() {
             form_data.append('cover_image', fileResponse.data.data[0].name);
 
             const token = localStorage.getItem('token');
-            const response = await axios.post(`https://learning-application.onrender.com/api/v1/admin/create-course`, form_data, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/admin/create-course`, form_data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,

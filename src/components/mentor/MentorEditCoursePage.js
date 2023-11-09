@@ -52,12 +52,12 @@ const MentorCourseEditPage = () => {
 
 
     // Fetch category data from an API
-    const apiUrl = `https://learning-application.onrender.com/api/v1/admin/list-category`;
+    const apiUrl = `${process.env.REACT_APP_API_URL}/api/v1/admin/list-category`;
 
 
     const fetchCourseList = async () => {
         try {
-            const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-course`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/list-course`);
             const courseData = response.data.data;
             setCourseList(courseData);
             setTotalItems(courseData.length)
@@ -78,7 +78,7 @@ const MentorCourseEditPage = () => {
 
     const fetchAuthorList = async () => {
         try {
-            const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/list-mentor`);
             const categoryData = response.data.data;
             setAuthorList(categoryData);
         } catch (error) {
@@ -110,7 +110,7 @@ const MentorCourseEditPage = () => {
                 Authorization: `Bearer ${token}`,
             };
             const response = await axios.get(
-                `https://learning-application.onrender.com/api/v1/admin/search-category?category=${searchQuery}`,
+                `${process.env.REACT_APP_API_URL}/api/v1/admin/search-category?category=${searchQuery}`,
                 { headers }
             );
             setCategoryList(response.data.data);
@@ -134,7 +134,7 @@ const MentorCourseEditPage = () => {
                 Authorization: `Bearer ${token}`,
             };
             const response = await axios.get(
-                `https://learning-application.onrender.com/api/v1/mentor/search-mentor?mentor=${searchAuthorQuery}`,
+                `${process.env.REACT_APP_API_URL}/api/v1/mentor/search-mentor?mentor=${searchAuthorQuery}`,
                 { headers }
             );
             setAuthorList(response.data.data);
@@ -219,7 +219,7 @@ const MentorCourseEditPage = () => {
     useEffect(() => {
         const fetchInstructors = async () => {
             try {
-                const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/list-mentor`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/list-mentor`);
                 const instructorData = response.data.data;
                 setInstructors(instructorData);
 
@@ -231,7 +231,7 @@ const MentorCourseEditPage = () => {
         fetchInstructors();
         const fetchCategory = async () => {
             try {
-                const response = await axios.get(`https://learning-application.onrender.com/api/v1/admin/list-category`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/admin/list-category`);
                 const instructorData = response.data.data;
                 setCategory(instructorData);
 
@@ -250,7 +250,7 @@ const MentorCourseEditPage = () => {
         };
 
         axios
-            .get(`https://learning-application.onrender.com/api/v1/mentor/get-mentor/${initialValues.instructor}`, { headers })
+            .get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/get-mentor/${initialValues.instructor}`, { headers })
             .then((response) => {
                 const data = response.data.data;
                 setInstructorSelect(data.mentor_name);
@@ -269,7 +269,7 @@ const MentorCourseEditPage = () => {
         };
 
         axios
-            .get(`https://learning-application.onrender.com/api/v1/admin/get-category/${initialValues.category_id}`, { headers })
+            .get(`${process.env.REACT_APP_API_URL}/api/v1/admin/get-category/${initialValues.category_id}`, { headers })
             .then((response) => {
                 const data = response.data.data;
                 setCategorySelect(data.category_name);
@@ -304,7 +304,7 @@ const MentorCourseEditPage = () => {
                 file_data.append('media', formik.values.profile_image);
                 file_data.append('service', 'mentors');
 
-                const fileResponse = await axios.post(`https://learning-application.onrender.com/api/v1/file-upload/upload`, file_data, {
+                const fileResponse = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/file-upload/upload`, file_data, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -317,7 +317,7 @@ const MentorCourseEditPage = () => {
             }
 
             const token = localStorage.getItem('mentor-token');
-            const response = await axios.patch(`https://learning-application.onrender.com/api/v1/mentor/edit-course/${id}`, form_data, {
+            const response = await axios.patch(`${process.env.REACT_APP_API_URL}/api/v1/mentor/edit-course/${id}`, form_data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,

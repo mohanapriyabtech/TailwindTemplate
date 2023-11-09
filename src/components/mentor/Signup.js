@@ -16,7 +16,7 @@ function Signup() {
   const handleSignupSubmit = async (values) => {
     try {
     
-      const response = await axios.post(`https://learning-application.onrender.com/api/v1/mentor/signup`, values);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/mentor/signup`, values);
       localStorage.setItem('token', response.data.data.session.session_token);
       navigate('/mentor-course');
     } catch (error) {

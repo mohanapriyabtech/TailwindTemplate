@@ -27,12 +27,12 @@ function UserLessonDetailsPage() {
     const fetchLessonList = async () => {
       try {
         const course_id = localStorage.getItem('course_id')
-        const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-lesson-by-course/${courseId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/get-lesson-by-course/${courseId}`);
         const lessonData = response.data.data;
         setLessonData(lessonData);
         // Get the mentor name using mentor_id
         const mentorId = lessonData[0].mentor_id;
-        const mentorResponse = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-mentor/${mentorId}`);
+        const mentorResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/get-mentor/${mentorId}`);
         const mentorData = mentorResponse.data.data;
         setMentorName(mentorData.mentor_name);
 

@@ -10,7 +10,7 @@ function LessonVideoPage() {
   useEffect(() => {
     const fetchLessonDetails = async () => {
       try {
-        const response = await axios.get(`https://learning-application.onrender.com/api/v1/mentor/get-lesson/${lessonId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/mentor/get-lesson/${lessonId}`);
         const lessonData = response.data.data;
         setLessonData(lessonData);
       } catch (error) {
